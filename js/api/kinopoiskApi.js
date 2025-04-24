@@ -3,17 +3,18 @@ const BASE_URL = 'https://kinopoiskapiunofficial.tech/api';
 
 
 const API_URL_PREMIER = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=2025&month=JANUARY';
-const API_URL_INTERESTING_MOVIES = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_POPULAR_ALL&page=1';
+const API_URL_INTERESTING_MOVIES = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_POPULAR_ALL&page=2';
+const API_URL_POPULAR_SERIALS = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=POPULAR_SERIES&page=1'
 const API_URL_SEARCH = 'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword='
 const API_MOVIE_DETAILS = 'https://kinopoiskapiunofficial.tech/api/v2.1/films/'
 
 
 export async function getPremierMovies() {
-    const url = API_URL_PREMIER
+    const url = API_URL_INTERESTING_MOVIES
     const data = await fetchJSON(url);
     console.log(data); // Для отладки
-    if (data && data.films) {
-        return data.films;
+    if (data && data.items) {
+        return data.items;
     } else {
         console.warn('Нет фильмов для отображения');
         return [];
@@ -34,6 +35,13 @@ export async function getInterestingMovies() {
     const data = await fetchJSON(url)
     console.log(data)
     return data.items.slice(0, 12) || []
+}
+
+export async function getPopularSerials() {
+    const url = API_URL_POPULAR_SERIALS
+    const data = await fetchJSON(url)
+    console.log(data)
+    return data.items || []
 }
 
 

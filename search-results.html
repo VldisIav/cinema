@@ -23,7 +23,7 @@
 <body>
     <header class="header">
         <div class="header-logo">
-            <a href="index.html">KINOMONSTER</a>
+            <a href="/">KINOMONSTER</a>
         </div>
         <form class="header-input">
             <input class="form-input" type="text" placeholder="Поиск..">
@@ -36,7 +36,11 @@
 
     <main>
         <div class="container">
-            <h2>Результаты поиска:</h2>
+            <div class="back">
+                <img src="/images/vector-back.svg" alt="">
+                <span>Назад</span>
+            </div>
+            <h2 class="pre-res-input">Результаты поиска:</h2>
 
             <div class="res-input">
                 <div id="searchResultsContainer"></div>
@@ -48,7 +52,7 @@
     <footer class="footer">
 
         <div class="header-logo">
-            KINOMONSTER
+            <a href="#">KINOMONSTER</a>
         </div>
         <div class="footer-info">
             <a href="#">Главная</a>
@@ -57,6 +61,10 @@
         </div>
     </footer>
     <script>
+        document.querySelector('.back').addEventListener('click', () => {
+            window.location.href = 'index.html'; // Переход на главную страницу
+        });
+
         const API_KEY = '7af01abb-86cd-4d19-aa08-c80c0f3de581'
         const BASE_URL = 'https://kinopoiskapiunofficial.tech';
 
@@ -81,48 +89,49 @@
                     searchResultsContainer.innerHTML = '<p>Фильмы не найдены.</p>';
                     return;
                 }
+                console.log(films)
 
                 films.forEach(movie => {
                     const card = document.createElement('div')
-                    card.className = 'search-card' // style.css!
+                    card.className = 'search-card'
                     card.innerHTML = `
-            <div class="res-input-img">
-                <img src="${movie.posterUrl}" alt="${movie.nameRu}" class="movie-poster">
-            </div>
-            <div class="res-input-desc">
-                <div class="input-title-desc">
-                    <h2 class="movie-title">${movie.nameRu}</h2>
-                    <div class="input-ratings">
-                        <p class="rate-kino">Кинопоиск: <span>${movie.rating}</span></p>
-                        <p class="rate-nokino">HHI: <span>${movie.rating}</span></p>
-                    </div>
-                </div>
-                <div class="input-descriptions">
-                    <div class="input-desc">
-                        <p>${movie.nameRu}</p>
-                    </div>
-                    <div class="input-genre">
-                        <p>Жанр: <span class="genre-info">${movie.genres.map(genreObj => genreObj.genre).join(', ')}</span></p>
-                    </div>
-                    <div class="input-year">
-                        <p>Год: <span class="year-info">${movie.year}</span></p>
-                    </div>
-                    <div class="input-country">
-                        <p>Страна: <span class="country-info">${movie.countries.map(countryObj => countryObj.country).join(', ')}</span></p>
-                    </div>
-                    <div class="input-author">
-                        <p>Режиссер: <span class="author-info">${movie.nameRu}</span></p>
-                    </div>
-                    <div class="input-main-actor">
-                        <p>В главных ролях: <span class="actor-info">${movie.nameRu}</span></p>
-                    </div>
-                    <div class="input-buttons">
-                        <div class="button-watch"><p>Смотреть</p></div>
-                        <div class="button-saved"><p>В избранное</p></div>
-                    </div>
-                </div>
-            </div>
-        `;
+                        <div class="res-input-img">
+                            <img src="${movie.posterUrl}" alt="${movie.nameRu}" class="res-movie-poster">
+                        </div>
+                        <div class="res-input-desc">
+                            <div class="input-title-desc">
+                                <h2 class="res-movie-title">${movie.nameRu}</h2>
+                                <div class="input-ratings">
+                                    <p class="rate-kino">Кинопоиск: <span>${movie.rating}</span></p>
+                                    <p class="rate-nokino">HHI: <span>${movie.rating}</span></p>
+                                </div>
+                            </div>
+                            <div class="input-descriptions">
+                                <div class="input-descriptions-descriptions">
+                                    <p> ${movie.description}</p>
+                                </div>
+                                <div class="input-genre">
+                                    <p>Жанр: <span class="genre-info">${movie.genres.map(genreObj => genreObj.genre).join(', ')}</span></p>
+                                </div>
+                                <div class="input-year">
+                                    <p>Год: <span class="year-info">${movie.year}</span></p>
+                                </div>
+                                <div class="input-country">
+                                    <p>Страна: <span class="country-info">${movie.countries.map(countryObj => countryObj.country).join(', ')}</span></p>
+                                </div>
+                                <div class="input-author">
+                                    <p>Режиссер: <span class="author-info">${movie.nameRu}</span></p>
+                                </div>
+                                <div class="input-main-actor">
+                                    <p>В главных ролях: <span class="actor-info">${movie.nameRu}</span></p>
+                                </div>
+                            </div>
+                            <div class="input-buttons">
+                                <div class="button-watch"><p>Смотреть</p></div>
+                                <div class="button-saved"><p>В избранное</p></div>
+                            </div>
+                        </div>
+                    `;
                     searchResultsContainer.appendChild(card);
                 });
             }
@@ -131,53 +140,3 @@
 </body>
 
 </html>
-
-<!-- // export function renderMovieSearchResults(movies, onCardClick) {
-//     const container = document.querySelector('#movieResults')
-//     container.innerHTML = ''
-//     movies.forEach(movie => {
-//         const card = document.createElement('div')
-//         card.className = 'search-card' // style.css!
-//         card.innerHTML = `
-//             <div class="res-input-img">
-//                 <img src="${movie.posterUrl}" alt="${movie.nameRu}" class="movie-poster">
-//             </div>
-//             <div class="res-input-desc">
-//                 <div class="input-title-desc">
-//                     <h2 class="movie-title">${movie.nameRu}</h2>
-//                     <div class="input-ratings">
-//                         <p class="rate-kino">Кинопоиск: <span>${movie.rating}</span></p>
-//                         <p class="rate-nokino">HHI: <span>${movie.rating}</span></p>
-//                     </div>
-//                 </div>
-//                 <div class="input-descriptions">
-//                     <div class="input-desc">
-//                         <p>${movie.nameRu}</p>
-//                     </div>
-//                     <div class="input-genre">
-//                         <p>Жанр: <span class="genre-info">${movie.genres.map(genreObj => genreObj.genre).join(', ')}</span></p>
-//                     </div>
-//                     <div class="input-year">
-//                         <p>Год: <span class="year-info">${movie.year}</span></p>
-//                     </div>
-//                     <div class="input-country">
-//                         <p>Страна: <span class="country-info">${movie.countries.map(countryObj => countryObj.country).join(', ')}</span></p>
-//                     </div>
-//                     <div class="input-author">
-//                         <p>Режиссер: <span class="author-info">${movie.nameRu}</span></p>
-//                     </div>
-//                     <div class="input-main-actor">
-//                         <p>В главных ролях: <span class="actor-info">${movie.nameRu}</span></p>
-//                     </div>
-//                     <div class="input-buttons">
-//                         <div class="button-watch"><p>Смотреть</p></div>
-//                         <div class="button-saved"><p>В избранное</p></div>
-//                     </div>
-//                 </div>
-//             </div>
-//         `
-//         card.addEventListener('click', () => onCardClick(movie.kinopoiskId))
-//         container.appendChild(card)
-//     })
-// }
- -->

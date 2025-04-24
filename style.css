@@ -26,6 +26,7 @@ body {
 .header-logo a {
     text-decoration: none;
     color: rgb(255, 61, 129);
+    border: none;
 }
 
 .header-logo {
@@ -101,7 +102,7 @@ body {
     font-size: 18px;
     font-weight: 400;
     text-align: left;
-    margin-bottom: 32px;
+    margin-bottom: 60px;
 
 }
 
@@ -128,7 +129,7 @@ body {
     /* Центрируем изображение */
     width: 780px;
     /* Ширина изображения */
-    height: 500px;
+    /* height: 500px; */
     /* Высота изображения */
     overflow: hidden;
 }
@@ -197,11 +198,18 @@ body {
     margin-left: 8px;
 }
 
+.back a {
+    text-decoration: none;
+}
+
 .back {
+    color: #7A7A7A;
+    font-size: 16px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     cursor: pointer;
+    margin-top: -60px;
     padding: 10px 20px;
     border-radius: 60px;
     font-size: 16px;
@@ -379,7 +387,7 @@ body {
 
 /* Style for the search button (inheriting from poster-text-button) */
 #searchButton {
-    background-color: #3498db;
+    /* background-color: #3498db; */
     /* Example button color */
     color: white;
     padding: 10px 14px;
@@ -444,6 +452,10 @@ select {
     align-items: center;
 }
 
+.selected-movies-wrapper h2 {
+    margin-bottom: 50px;
+}
+
 .movie-list {
     display: flex;
     /* Используем Flexbox для карточек */
@@ -468,9 +480,9 @@ select {
 .search-card {
     color: black;
     border-radius: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     transition: transform 0.3s;
-    max-width: 400px;
+    /* max-width: 400px; */
     display: flex;
     justify-content: space-between;
 }
@@ -478,48 +490,32 @@ select {
 
 .movie-card:hover {
     transform: scale(1.05);
-    /* Увеличение карточки при наведении */
 }
 
 .movie-card img {
     width: 100%;
     max-height: 350px;
-    /* Ширина изображения */
     border-radius: 10px 10px 0 0;
-    /* Скругляем верхние углы */
 }
 
-
-
-
-
-/* Стили для рейтинга */
 .rating {
     font-weight: bold;
-    /* Жирный шрифт для рейтинга */
     font-size: 16px;
-    /* Размер шрифта для рейтинга */
     border-radius: 5px;
-    /* Скругление углов рейтинга */
     padding: 3px 8px;
-    /* Отступы внутри рейтинга */
     color: white;
-    /* Цвет текста рейтинга */
 }
 
 .rating.high {
     background-color: #FFD700;
-    /* Золотой цвет для высоких рейтингов */
 }
 
 .rating.medium {
     background-color: #FFA500;
-    /* Оранжевый цвет для средних рейтингов */
 }
 
 .rating.low {
     background-color: #FF4500;
-    /* Красный цвет для низких рейтингов */
 }
 
 
@@ -549,70 +545,47 @@ select {
 }
 
 .modal-content {
-
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    /* Радиус для углов */
     max-width: 500px;
-    max-height: 98%;
-    /* Ограничение ширины */
+    max-height: 97%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    /* Тень */
     position: relative;
-    /* Для позиции кнопки закрытия */
     display: flex;
-    /* Используем flex для вертикального расположения элементов */
     flex-direction: column;
-    /* Вертикальная компоновка */
     align-items: center;
-    /* Центрируем содержимое по горизонтали */
 }
 
-/* Кнопка закрытия */
 .close {
     color: #aaa;
     font-size: 30px;
     font-weight: bold;
     position: absolute;
-    /* Позиционируем по углу модального окна */
     top: 10px;
-    /* Высота от верхней грани */
     right: 15px;
-    /* Отступ от правого края */
     cursor: pointer;
     z-index: 1001;
-    /* Кнопка выше остальных элементов */
 }
 
 .close:hover,
 .close:focus {
     color: #ff0000;
-    /* Красный при наведении */
 }
 
 .modal-header {
     display: flex;
-    /* Используем flexbox для заголовка */
     flex-direction: column;
-    /* Вертикальная компоновка */
     align-items: center;
-    /* Центрируем элементы */
     margin-bottom: 10px;
-    /* Отступ между заголовком и текстом */
     width: 70%;
-    /* Ширина блока */
 }
 
 .modal-title {
     font-size: 24px;
-    /* Размер заголовка */
     color: #080423;
-    /* Цвет заголовка */
     margin-top: 10px;
-    /* Отступ сверху для заголовка */
     text-align: center;
-    /* Центрируем текст заголовка */
 }
 
 .modal-image {
@@ -631,13 +604,8 @@ select {
 
 .modal-description {
     font-size: 16px;
-    /* margin-bottom: 10px; */
     text-align: justify;
-    /* Для выравнивания текста по ширине */
-    line-height: 1.5;
-    /* Межстрочный интервал */
     padding: 10px;
-    /* Внутренний отступ */
 }
 
 .watch-button {
@@ -666,14 +634,10 @@ select {
     /* Цвет кнопки при наведении */
 }
 
-.res-input {
-    display: flex;
-    /* padding: 20px; */
-}
-
-.res-input-img {
-    /* Ширина изображения */
-    margin-right: 20px;
+.movie-title {
+    font-size: 80px;
+    font-weight: bold;
+    color: #333;
 }
 
 .movie-poster {
@@ -684,11 +648,45 @@ select {
     border-radius: 5px;
 }
 
-.res-input-desc {
-    flex: 1;
+.pre-res-input {
+    margin-top: 30px;
+    margin-bottom: 40px;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #080423;
+
+}
+
+
+.res-input {
+    display: flex;
+    padding: 20px;
+    /* Добавим отступы для общего пространства */
+}
+
+.res-input-img {
+    margin-right: 70px;
+    /* Отступ между картинкой и текстом */
+    height: 100%;
+}
+
+.res-movie-poster {
+    /* max-width: 570px; */
+    max-height: auto;
+    max-width: 335px;
+    /* Сохраняем пропорции изображения */
+    object-fit: cover;
+    /* Обрезка изображения без искажения */
+    border-radius: 10px;
+    /* Закругленные углы для более мягкого стиля */
+}
+
+.res-input-desc {
+    display: flex;
+    flex: 1;
+    /* width: 100%; */
     flex-direction: column;
-    /* Вертикальное расположение текстовых блоков */
 }
 
 .input-title-desc {
@@ -697,31 +695,27 @@ select {
     justify-content: space-between;
 }
 
-.movie-title {
-    font-size: 20px;
+.res-movie-title {
+    font-size: 60px;
+    /* Размер заголовка фильма */
     font-weight: bold;
     color: #333;
+    /* Цвет заголовка */
 }
 
 .input-ratings {
     display: flex;
     flex-direction: column;
-    /* Указываем, что рейтинги будут в столбик */
     gap: 5px;
-    /* Промежуток между рейтингами */
-}
-
-.rate-kino,
-.rate-nokino {
     color: rgb(255, 210, 51);
-    border-radius: 5px;
+    font-weight: 500;
 }
 
 .input-descriptions {
-    margin-top: 15px;
+    /* margin-top: 15px; */
 }
 
-.input-desc,
+/* Цвета и размеры элемента с жанрами */
 .input-genre,
 .input-year,
 .input-country,
@@ -729,39 +723,59 @@ select {
 .input-main-actor {
     margin-bottom: 15px;
     color: rgb(122, 122, 122);
+    /* Серый текст для описания */
 }
 
-strong {
-    color: #333;
-}
-
-.input-genre {
-    margin-top: 50px;
-    /* Отступ сверху для жанра, чтобы создать 50px разделение */
-}
-
+/* Кнопки */
 .input-buttons {
     display: flex;
-    gap: 20px;
+    gap: 33px;
     /* Промежуток между кнопками */
-    margin-top: 20px;
+    margin-top: 35px;
     /* Отступ сверху для кнопок */
+    align-items: center;
+    /* justify-content: center; */
+    font-size: 18px;
 }
 
 .button-watch,
 .button-saved {
-    padding: 10px 10px;
     border-radius: 40px;
+    /* Закругленные углы для кнопок */
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    /* Плавный переход для фона и цвета */
 }
 
 .button-watch {
     background-color: rgb(255, 61, 129);
     color: white;
+    padding: 10px 16px;
+
 }
 
 .button-saved {
     color: rgb(255, 61, 129);
     background-color: white;
     border: 1px solid rgb(255, 61, 129);
+    padding: 10px 33px;
+}
+
+.button-watch:hover {
+    background-color: rgb(239, 31, 104);
+
+}
+
+.button-saved:hover {
+    color: white;
+    background-color: rgb(255, 61, 129);
+}
+
+.input-descriptions-descriptions {
+    margin-top: 35px;
+    margin-bottom: 17px;
+    color: rgb(0, 0, 0);
+    font-size: 18px;
+    font-weight: 400;
+    text-align: left;
 }
