@@ -1,3 +1,6 @@
+
+
+
 export function getRatingClass(rating) {
     if (rating >= 8) return 'high'
     if (rating >= 5) return 'medium'
@@ -13,3 +16,4 @@ export function durationToMinutes(durationString) {
     if (isNaN(hours) || isNaN(minutes)) return durationString
     return (hours * 60 + minutes) + " минут"
 }
+

@@ -4,16 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Результаты поиска</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Bayon&family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&display=swap"
-        rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bayon&family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
@@ -49,94 +43,23 @@
 
     </main>
 
-    <footer class="footer">
 
+    <div class="modal" id="movieModal">
+
+    </div>
+    <footer class="footer">
         <div class="header-logo">
             <a href="#">KINOMONSTER</a>
         </div>
-        <div class="footer-info">
-            <a href="#">Главная</a>
-            <a href="#">Популярные фильмы</a>
-            <a href="#">Популярные сериалы</a>
-        </div>
+        <nav class="footer-info" aria-label="Основная навигация">
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="#">Популярные фильмы</a></li>
+                <li><a href="#">Популярные сериалы</a></li>
+            </ul>
+        </nav>
     </footer>
-    <script>
-        document.querySelector('.back').addEventListener('click', () => {
-            window.location.href = 'index.html'; // Переход на главную страницу
-        });
-
-        const API_KEY = '7af01abb-86cd-4d19-aa08-c80c0f3de581'
-        const BASE_URL = 'https://kinopoiskapiunofficial.tech';
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchResultsContainer = document.getElementById('searchResultsContainer');
-
-            // Получаем данные о фильмах из sessionStorage
-            const searchResultsString = sessionStorage.getItem('searchResults');
-
-            if (searchResultsString) {
-                const films = JSON.parse(searchResultsString);
-                sessionStorage.removeItem('searchResults'); // Очищаем sessionStorage, чтобы не засорять
-                renderMovies(films);
-            } else {
-                searchResultsContainer.innerHTML = '<p>Ничего не найдено.</p>';
-            }
-
-            function renderMovies(films) {
-                searchResultsContainer.innerHTML = '';
-
-                if (!films || films.length === 0) {
-                    searchResultsContainer.innerHTML = '<p>Фильмы не найдены.</p>';
-                    return;
-                }
-                console.log(films)
-
-                films.forEach(movie => {
-                    const card = document.createElement('div')
-                    card.className = 'search-card'
-                    card.innerHTML = `
-                        <div class="res-input-img">
-                            <img src="${movie.posterUrl}" alt="${movie.nameRu}" class="res-movie-poster">
-                        </div>
-                        <div class="res-input-desc">
-                            <div class="input-title-desc">
-                                <h2 class="res-movie-title">${movie.nameRu}</h2>
-                                <div class="input-ratings">
-                                    <p class="rate-kino">Кинопоиск: <span>${movie.rating}</span></p>
-                                    <p class="rate-nokino">HHI: <span>${movie.rating}</span></p>
-                                </div>
-                            </div>
-                            <div class="input-descriptions">
-                                <div class="input-descriptions-descriptions">
-                                    <p> ${movie.description}</p>
-                                </div>
-                                <div class="input-genre">
-                                    <p>Жанр: <span class="genre-info">${movie.genres.map(genreObj => genreObj.genre).join(', ')}</span></p>
-                                </div>
-                                <div class="input-year">
-                                    <p>Год: <span class="year-info">${movie.year}</span></p>
-                                </div>
-                                <div class="input-country">
-                                    <p>Страна: <span class="country-info">${movie.countries.map(countryObj => countryObj.country).join(', ')}</span></p>
-                                </div>
-                                <div class="input-author">
-                                    <p>Режиссер: <span class="author-info">${movie.nameRu}</span></p>
-                                </div>
-                                <div class="input-main-actor">
-                                    <p>В главных ролях: <span class="actor-info">${movie.nameRu}</span></p>
-                                </div>
-                            </div>
-                            <div class="input-buttons">
-                                <div class="button-watch"><p>Смотреть</p></div>
-                                <div class="button-saved"><p>В избранное</p></div>
-                            </div>
-                        </div>
-                    `;
-                    searchResultsContainer.appendChild(card);
-                });
-            }
-        });
-    </script>
+    <script type="module" src="js/components/search/searchResults.js"></script>
 </body>
 
 </html>

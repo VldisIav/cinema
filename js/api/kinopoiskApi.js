@@ -2,17 +2,14 @@ const API_KEY = '7af01abb-86cd-4d19-aa08-c80c0f3de581'
 const BASE_URL = 'https://kinopoiskapiunofficial.tech/api';
 
 
-const API_URL_PREMIER = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=2025&month=JANUARY';
-const API_URL_INTERESTING_MOVIES = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_POPULAR_ALL&page=2';
-const API_URL_POPULAR_SERIALS = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=POPULAR_SERIES&page=1'
-const API_URL_SEARCH = 'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword='
-const API_MOVIE_DETAILS = 'https://kinopoiskapiunofficial.tech/api/v2.1/films/'
+const API_URL_PREMIER = `${BASE_URL}/v2.2/films/premieres?year=2025&month=JANUARY `
+const API_URL_INTERESTING_MOVIES = `${BASE_URL}/v2.2/films/collections?type=TOP_POPULAR_ALL&page=2`
+const API_URL_POPULAR_SERIALS = `${BASE_URL}/v2.2/films/collections?type=POPULAR_SERIES&page=1`
 
 
 export async function getPremierMovies() {
     const url = API_URL_INTERESTING_MOVIES
     const data = await fetchJSON(url);
-    console.log(data); // Для отладки
     if (data && data.items) {
         return data.items;
     } else {
@@ -23,31 +20,26 @@ export async function getPremierMovies() {
 
 
 export async function getPopularMovies() {
-    console.log('asd')
     const url = API_URL_PREMIER
     const data = await fetchJSON(url)
-    console.log(data)
-    return data.items.slice(0, 12) || []
+    return data.items || []
 }
 
 export async function getInterestingMovies() {
     const url = API_URL_INTERESTING_MOVIES
     const data = await fetchJSON(url)
-    console.log(data)
-    return data.items.slice(0, 12) || []
+    return data.items || []
 }
 
 export async function getPopularSerials() {
     const url = API_URL_POPULAR_SERIALS
     const data = await fetchJSON(url)
-    console.log(data)
     return data.items || []
 }
 
 
 export async function getMovieDetails(id) {
     const url = `${BASE_URL}/v2.1/films/${id}`
-    console.log('asd2')
     return fetchJSON(url)
 }
 
@@ -55,24 +47,41 @@ export async function getMoviesByKeyword(keyword) {
     const url = `${BASE_URL}/v2.1/films/search-by-keyword?keyword=${encodeURIComponent(keyword)}`;
     try {
         const data = await fetchJSON(url);
-        console.log('getMoviesByKeyword: Данные, полученные из API:', data);
-        return data.films; // Возвращаем data.films
+        return data.films;
     } catch (error) {
         console.error('getMoviesByKeyword: Ошибка при получении фильмов:', error);
         throw error;
     }
 }
 
-
 export async function getMoviesByCategory({ type, country, year }) {
-    const url = `${BASE_URL}/v2.2/films?order=RATING&type=${type}&yearFrom=${year}&yearTo=${year}&country=${country}&page=1`;
-    const data = await fetchJSON(url)
-    console.log('asd4')
-    console.log(data)
-    return data.items || []
+    const params = new URLSearchParams({
+        order: 'RATING',
+        page: 1
+    });
+
+    if (type) params.append('type', type);
+
+    if (country && Array.isArray(country) && country.length > 0) {
+        country.forEach(c => params.append('countries', c));
+    }
+
+    if (year) {
+        params.append('yearFrom', year);
+        params.append('yearTo', year);
+    }
+
+    const url = `${BASE_URL}/v2.2/films?${params.toString()}`
+
+    try {
+        const data = await fetchJSON(url);
+        return data.items || [];
+    } catch (error) {
+        console.error('Ошибка при получении фильмов по категориям:', error);
+        return [];
+    }
 }
 
-// универсальный fetch со всеми заголовками
 async function fetchJSON(url) {
     try {
         const resp = await fetch(url, {
@@ -83,11 +92,12 @@ async function fetchJSON(url) {
         });
 
         if (!resp.ok) {
-            throw new Error(`Ошибка с fetch: ${resp.status} ${resp.statusText}`);
+            const errorMessage = `Ошибка с fetch: ${resp.status} ${resp.statusText}`;
+            throw new Error(errorMessage);
         }
         return resp.json();
     } catch (error) {
         console.error('Ошибка в fetchJSON:', error);
-        throw error; // Пробрасываем дальше, чтобы обработать в самом вызове
+        throw error;
     }
 }

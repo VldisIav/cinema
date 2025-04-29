@@ -1,53 +1,84 @@
-import { getPopularMovies, getInterestingMovies, getPremierMovies, getMovieDetails, getMoviesByKeyword, getMoviesByCategory, getPopularSerials } from './api/kinopoiskApi.js'
+import {
+    getPopularMovies,
+    getInterestingMovies,
+    getPremierMovies,
+    getPopularSerials,
+    getMoviesByKeyword
+} from './api/kinopoiskApi.js';
 import { renderPoster } from './components/poster.js'
-import { renderMovieList, renderMovieSearchResults, renderSerialsList, renderMovieListByFilters } from './components/movieCard.js'
+import { createMovieList } from './components/movie/movieList.js';
+import { setupPagination } from './components/moviePagination.js';
 import { openModal } from './components/modal.js'
-import { initSearchInput } from './components/searchInput.js'
-import { initCategoriesInput } from './components/categoriesInput.js'; // Исправлено
+import { initCategoriesInput } from './components/categoriesInput.js';
 
 
-// Главный старт. Подгружаем премьеру.
 
-// getPremierMovies().then(data => {
-//     console.log('Премьера:', data.slice(0, 3))
-//     renderPoster(data.slice(2, 3), openModal); // Передаем openModalAndRedirect
-// }).catch(error => {
-//     console.error('Ошибка при загрузке популярных фильмов:', error);
-// });
+const popularMovieList = createMovieList('.pop-list');
+const serialList = createMovieList('.pop-list');
+const filteredMovieList = createMovieList('.movie-list');
 
-// getPopularMovies().then(data => {
-//     console.log('Популярные фильмы:', data); // Для отладки
-//     renderMovieList(data, openModal);
-// }).catch(error => {
-//     console.error('Ошибка при загрузке популярных фильмов:', error); // Логгирование ошибок
-// });
+setupPagination(popularMovieList, serialList);
+
+// Главный старт.
+
+getPremierMovies().then(data => {
+    renderPoster(data.slice(4, 5), openModal);
+}).catch(error => {
+    console.error('Ошибка при загрузке популярных фильмов:', error);
+});
+
+getPopularMovies()
+    .then(data => popularMovieList.initialize(data, 'mov', openModal))
+    .catch(console.error);
 
 
+
+
+const searchForm = document.querySelector('.header-input');
+const searchInput = document.querySelector('.form-input');
+
+searchForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const value = searchInput.value.trim();
+    if (!value) return;
+
+    try {
+        const films = await getMoviesByKeyword(value);
+        console.log(films)
+        if (films && films.length > 0) {
+            sessionStorage.setItem('searchResults', JSON.stringify(films));
+            console.log(JSON.stringify(films))
+        } else {
+            sessionStorage.setItem('searchResults', JSON.stringify([]));
+        }
+        window.location.href = './search-results.html';
+    } catch (e) {
+        alert('Ошибка поиска!');
+        console.error(e);
+    }
+});
 
 
 document.querySelector('.categories-films').addEventListener('click', () => {
-    console.log('Клик по популярным фильмам')
-    getPopularMovies().then(data => renderMovieList(data, openModal))
-})
-
+    getPopularMovies()
+        .then(data => popularMovieList.initialize(data, 'mov', openModal));
+});
 
 document.querySelector('.categories-serials').addEventListener('click', () => {
-    console.log('Клик по популярным сериалам!')
-    console.log(document.querySelector('.watch-all'))
-    getPopularSerials().then(data => renderSerialsList(data, openModal))
-})
+    getPopularSerials()
+        .then(data => serialList.initialize(data, 'ser', openModal));
+});
 
 document.querySelector('.categories-favourite').addEventListener('click', () => {
-    console.log('Клик по Подборке из фильмов: ')
-    getInterestingMovies().then(data => renderMovieList(data, openModal))
-
-})
+    getInterestingMovies()
+        .then(data => popularMovieList.initialize(data, 'mov', openModal));
+});
 
 document.querySelector('#searchButton').addEventListener('click', () => {
-    console.log('Поиск по категориям: ')
-    initCategoriesInput(renderMovieListByFilters, openModal)
-
-})
-// initSearchInput(renderMovieSearchResults, openModal)
+    initCategoriesInput((movies) => {
+        filteredMovieList.initialize(movies, 'mov', openModal);
+    }, openModal);
+});
 
 

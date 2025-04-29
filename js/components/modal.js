@@ -1,12 +1,16 @@
 import { getMovieDetails } from '../api/kinopoiskApi.js'
-import { durationToMinutes } from './helpers.js'
+import { durationToMinutes } from '../helpers/helpers.js'
 
 const modalEl = document.getElementById('movieModal')
 
 export async function openModal(id) {
     const respData = await getMovieDetails(id)
-    const movie = respData.data
 
+    if (!respData) {
+        throw new Error('Mistake with fetch respData')
+    }
+
+    const movie = respData.data
     const countries = movie.countries.map(c => c.country).join(', ')
     let descriptionText = movie.description || ''
     let descriptionDisplay = descriptionText.length > 120

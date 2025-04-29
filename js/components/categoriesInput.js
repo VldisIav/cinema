@@ -1,12 +1,32 @@
-import { getMoviesByCategory } from '../api/kinopoiskApi.js'
+import { getMoviesByCategory } from '../api/kinopoiskApi.js';
 
 export function initCategoriesInput(renderResults, openModal) {
-    document.getElementById('searchButton').addEventListener('click', () => {
-        const type = document.getElementById('type-input').value
-        const country = document.getElementById('country-input').value
-        const year = document.getElementById('year-input').value
-        console.log(`type - ${type}, country - ${country}, year - ${year}`)
-        getMoviesByCategory({ type, country, year }).then(movies => renderResults(movies, openModal))
-    })
+    const form = document.getElementById('movieFiltersForm');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const type = formData.get('type-input');
+        const country = formData.get('country-input').trim();
+        const year = formData.get('year-input');
+
+        console.log(`Параметры поиска: type=${type}, country=${country}, year=${year}`);
+
+        try {
+            const movies = await getMoviesByCategory({
+                type: type || 'ALL',
+                country: country || '',
+                year: year || ''
+            });
+
+            if (movies.length === 0) {
+                alert('По запросу ничего не найдено');
+            }
+
+            renderResults(movies, openModal);
+        } catch (error) {
+            console.error('Ошибка при поиске по категориям:', error);
+        }
+    });
 }
-// getMoviesByCategory

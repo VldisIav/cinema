@@ -9,11 +9,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Bayon&family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&display=swap"
         rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bayon&family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
     <title>Cinema</title>
@@ -41,23 +36,28 @@
 
     <div class="categories">
         <div class="container">
-            <div class="categories-wrapper">
-                <div class="categories-films">
-                    <div>Популярные фильмы</div>
-                </div>
-                <div class="categories-serials">
-                    <div>Популярные сериалы</div>
-                </div>
-                <div class="categories-favourite">
-                    <div>Подборка фильмов</div>
-                </div>
-            </div>
-            <div class="watch-all">
-                <span>Смотреть все</span>
-                <img src="/images/right.svg" alt="">
-            </div>
-            <div class="pop-list">
+            <nav class="categories-wrapper" aria-label="Категории контента">
+                <button class="categories-films" type="button" aria-label="Показать популярные фильмы">
+                    <span>Популярные фильмы</span>
+                </button>
+                <button class="categories-serials" type="button" aria-label="Показать популярные сериалы">
+                    <span>Популярные сериалы</span>
+                </button>
+                <button class="categories-favourite" type="button" aria-label="Показать подборку фильмов">
+                    <span>Подборка фильмов</span>
+                </button>
+            </nav>
 
+            <div class="watch-all-wrapper">
+                <button class="watch-all" type="button" aria-label="Показать все">
+                    <span>Смотреть все</span>
+                    <img src="/images/right.svg" alt="">
+                </button>
+            </div>
+
+
+            <div class="pop-list" role="region" aria-live="polite">
+                <!-- Контент будет загружаться динамически -->
             </div>
         </div>
     </div>
@@ -80,24 +80,33 @@
                         <p>Фильмы по категориям</p>
                     </div>
 
-                    <div class="movie-categories">
+
+
+                    <form class="movie-categories" id="movieFiltersForm">
                         <div class="movie-type">
                             <label for="type-input">Тип фильма:</label>
-                            <input type="text" id="type-input" placeholder="Ужасы, комедия" class="input-style">
+                            <select id="type-input" name="type-input" class="input-style" required>
+                                <option value="" disabled selected>Выберите тип</option>
+                                <option value="FILM">Фильм</option>
+                                <option value="TV_SERIES">Сериал</option>
+                                <option value="ALL">Все</option>
+                            </select>
                         </div>
 
                         <div class="movie-country">
                             <label for="country-input">Страна:</label>
-                            <input type="text" id="country-input" placeholder="США" class="input-style">
+                            <input type="text" name="country-input" id="country-input" placeholder="США"
+                                class="input-style">
                         </div>
 
                         <div class="movie-year">
                             <label for="year-input">Год:</label>
-                            <input type="number" id="year-input" placeholder="2022" class="input-style">
+                            <input type="number" id="year-input" name="year-input" placeholder="2022" min="1900"
+                                max="2025" class="input-style">
                         </div>
 
-                        <button id="searchButton" class="poster-text-button">Искать фильм</button>
-                    </div>
+                        <button type="submit" id="searchButton" class="poster-text-button">Искать фильм</button>
+                    </form>
 
                     <div class="selected-movies">
                         <div class="selected-movies-wrapper">
@@ -110,7 +119,7 @@
 
 
                         <div class="movie-list" id="movieList">
-                            <!-- Здесь будут отображаться фильмы -->
+                            <!-- Здесь  фильмы -->
                         </div>
                     </div>
                 </div>
@@ -125,15 +134,16 @@
 
 
     <footer class="footer">
-
         <div class="header-logo">
             <a href="#">KINOMONSTER</a>
         </div>
-        <div class="footer-info">
-            <a href="#">Главная</a>
-            <a href="#">Популярные фильмы</a>
-            <a href="#">Популярные сериалы</a>
-        </div>
+        <nav class="footer-info" aria-label="Основная навигация">
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="#">Популярные фильмы</a></li>
+                <li><a href="#">Популярные сериалы</a></li>
+            </ul>
+        </nav>
     </footer>
 
     <script type="module" src="/js/app.js"></script>
